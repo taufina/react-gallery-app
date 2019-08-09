@@ -1,41 +1,44 @@
 import React, { Component} from 'react';
-import logo from './logo.svg';
 import './App.css';
 import axios from 'axios';
 import Nav from './components/Nav';
 import Search from './components/Search';
 import PhotoContainer from './components/PhotoContainer';
 import apiKey from './config.js';
+import Error from './components/Error'
+import {
+  BrowserRouter,
+  Route,
+  Switch
+} from 'react-router-dom';
+
 
 
 class App extends Component {
-  state={
-    photos:[]
-  };
-  // constructor(){
-  //   super();
-  //   this.state={
-  //     photos:[]
-  //   };
-  // }
-
-  // componentDidMount(){
-  //   fetch(`https://api.flickr.com/services/rest/?method=flickr.photos.getRecent&api_key=${apiKey}&per_page=10&format=json&nojsoncallback=1`)
-  //     .then(response => response.json)
-  //     .then(responseData => {
-  //       this.setState({photos: responseData.data})
-  //     })
-  //     .catch(error => {
-  //       console.log('Error fetching and parsing data', error);
-  //     });
-  // }
-
+  constructor(){
+    super();
+    this.state = {
+      photos:[],
+      loading: true
+    };
+  }
+ 
     componentDidMount(){
-      axios.get(`https://api.flickr.com/services/rest/?method=flickr.photos.getRecent&api_key=${apiKey}&per_page=24&format=json&nojsoncallback=1`)
+      this.performSearch("cake");
+    }
+
+   
+    performSearch = (query) => {
+      this.setState({
+        loading: true,
+        
+      });
+      axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags=${query}&per_page=24&format=json&nojsoncallback=1`)
       .then(response=>{
         console.log(response);
         this.setState({
-          photos: response.data.photos.photo
+          photos: response.data.photos.photo,
+          loading: false
         });
       })
         .catch(error => {
@@ -43,21 +46,30 @@ class App extends Component {
         });
     }
 
-
-
-
+    
   render(){
     console.log(this.state.photos)
+    
     return (
-      <div className="container">
+
+      <BrowserRouter>
+        <div className="container">
+          <Search onSearch={this.performSearch}/>
+          <Nav onClick={this.performSearch}/>
+          {
+            (this.state.loading)
+            ? <h3>Loading...</h3>
+            :
+
+          <Switch>            
+            <Route exact path="/" render={props => <PhotoContainer data={this.state.photos}{...props} />} />
+            <Route exact path="/:name" render={props => <PhotoContainer search={this.performSearch} data={this.state.photos} {...props}/>} />
+            <Route component={Error} />
+          </Switch>
+          }
+        </div>
+      </BrowserRouter>
         
-        <Search/>
-      
-        <Nav/>
-
-        <PhotoContainer photos={this.state.photos}/>
-
-      </div>
     );
   }
 }

@@ -1,17 +1,23 @@
 import React from 'react';
-// import {Link} from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 
-const Nav = () => {
+class Nav extends React.Component{
+    link = e => {
+        this.props.onClick(e.target.innerText);
+    }
+
+    render(){
+
     return (
         <nav className="main-nav">
             <ul>
-                {/* <li><Link to='#'>Sunrise</Link></li>
-                <li><Link to='#'>Flowers</Link></li>
-                <li><Link to='#'>Waterfall</Link></li> */}
+                <li><NavLink to='/cats' onClick={this.link}>Cats</NavLink></li>
+                <li><NavLink to='/dogs'onClick={this.link}>Dogs</NavLink></li>
+                <li><NavLink to='/computers' onClick={this.link}>Computer</NavLink></li>
             </ul>
         </nav>
 
-    );
+    );}
 }
 
 export default Nav;
