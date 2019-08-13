@@ -1,6 +1,7 @@
 import React from 'react';
 
-const NotFound = () => {
+// When the page is not found, show the below message.
+const NotFound = (props) => {
     return (
         <li className="not-found">
             <h3>No Results Found</h3>

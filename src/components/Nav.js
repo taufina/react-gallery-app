@@ -1,9 +1,12 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
 
+
+//This component shows the navigation links.  When you click the buttons, it automatically searches and shows the results.
+
 class Nav extends React.Component{
     link = e => {
-        this.props.onClick(e.target.innerText);
+        this.props.onClick(e.target.innerText); 
     }
 
     render(){
@@ -11,9 +14,9 @@ class Nav extends React.Component{
     return (
         <nav className="main-nav">
             <ul>
-                <li><NavLink to='/cats' onClick={this.link}>Cats</NavLink></li>
-                <li><NavLink to='/dogs'onClick={this.link}>Dogs</NavLink></li>
-                <li><NavLink to='/computers' onClick={this.link}>Computer</NavLink></li>
+                <li><NavLink to='/performSearch/waterfalls' onClick={this.link}>Waterfalls</NavLink></li>
+                <li><NavLink to='/performSearch/flowers'onClick={this.link}>Flowers</NavLink></li>
+                <li><NavLink to='/performSearch/mountains' onClick={this.link}>Mountains</NavLink></li>
             </ul>
         </nav>
 

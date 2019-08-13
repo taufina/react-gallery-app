@@ -4,20 +4,25 @@ import{withRouter} from "react-router-dom";
 class Search extends Component {
   
         state={
-            searchText: '',
+            searchText: '',  //this is erasing any previous search that was typed in the search box.
             loading: false
         }
+
+
     onSearchChange = (e) => {
         this.setState({ 
-            searchText: e.target.value,
+            searchText: e.target.value, //searchText is now taking the value of what was typed.
             loading: true
         });
     
     }
+
+
+    //this takes the search text, and performs search on it.  It also sets the path to reflect the search.
     handleSubmit = (e) => {
         e.preventDefault();
         let value=this.state.searchText.toLowerCase();
-        let path = `/${value}`
+        let path = `/performSearch/${value}`
         this.props.history.push(path)
         this.props.onSearch(value);
         e.currentTarget.reset();
